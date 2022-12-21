@@ -200,3 +200,254 @@ class MyWidget extends StatelessWidget {
 }
 
 =====================
+
+what is api level in flutter android
+
+In the context of Android development, the Android API level is the version of the Android platform that an app was compiled against. The Android platform provides a set of APIs that allows developers to create apps for Android devices. Each version of the Android platform includes a specific set of APIs, and the Android API level represents the version of the Android platform that an app was compiled against.
+
+For example, if an app was compiled against Android API level 30, this means that the app was built using the APIs available in Android 30 (also known as Android 11). This means that the app will be able to run on any Android device that is running Android 11 or a newer version of Android. However, the app may not be able to run on older versions of Android that do not have the APIs that the app was compiled against.
+
+In Flutter, you can use the defaultTargetPlatform property from the flutter:flutter package to get the default target platform of the app. This is useful if you want to know the Android API level that the app was compiled against, rather than the Android API level of the device that the app is currently running on.
+
+
+
+import 'package:flutter/widgets.dart';
+print('Default target platform: ${defaultTargetPlatform.toString()}');
+
+
+This will print the name of the default target platform, such as "android_30" for Android API level 30.
+
+You can also use the Platform.operatingSystem property to get the name of the operating system as a string.
+
+
+import 'package:flutter/widgets.dart';
+print('Operating system: ${Platform.operatingSystem}');
+
+
+This will print the name of the operating system, such as "android" for Android or "ios" for iOS.
+
+======================
+
+Add an info icon to the app bar in flutter.
+
+Scaffold(
+  appBar: AppBar(
+    title: Text('My App'),
+    actions: <Widget>[
+      IconButton(
+        icon: Icon(Icons.info),
+        onPressed: () {
+          // Show the info dialog or bottom sheet here
+        },
+      ),
+    ],
+  ),
+  // ...
+)
+
+================
+
+Display non-blocking modal in flutter:-
+
+import 'package:flutter/material.dart';
+
+// ...
+
+void showAboutBottomSheet() {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return Container(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Text('This is an example modal bottom sheet that demonstrates how to display a non-blocking pop-up window in Flutter.'),
+        ),
+      );
+    },
+  );
+}
+
+
+===============================
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: MyHomePage(),
+    ),
+  );
+}
+
+class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My App'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.info),
+            onPressed: () {
+              // Show the snackbar
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('This is a snackbar.'),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+      body: Center(
+        child: Text('Click the info icon to show the snackbar.'),
+      ),
+    );
+  }
+}
+
+======================
+
+Show a snack in flutter
+
+
+Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.info),
+            onPressed: () {
+              // Show the info dialog or bottom sheet here
+              String version = defaultTargetPlatform.toString();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Built by Ashish Mishra for Android Target Version: ${version}'),
+                duration: const Duration(seconds: 5),
+                // action: SnackBarAction(
+                //   label: 'ACTION',
+                //   onPressed: () { },
+                // ),
+              ));
+            },
+          ),
+        ],
+        title: Text(widget.title),
+      ),
+	  ....
+	  .....
+	  
+==============================
+
+store list of strings in local storage in flutter
+
+In Flutter, you can use the flutter:shared_preferences package to store a list of strings in local storage. Here's an example of how you can use this package to store and retrieve a list of strings:
+
+First, add the flutter:shared_preferences package to your pubspec.yaml file and run flutter packages get to install the package.
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter:shared_preferences: ^0.7.6
+
+
+Import the flutter:shared_preferences package in your Dart code.
+
+
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+To store a list of strings, you can use the setStringList() method of the SharedPreferences object. This method takes two arguments: a key and a list of strings.
+
+// Define a list of strings
+List<String> list = ['item1', 'item2', 'item3'];
+
+// Get the SharedPreferences object
+SharedPreferences prefs = await SharedPreferences.getInstance();
+
+// Store the list of strings
+prefs.setStringList('my_list', list);
+
+=====
+
+import 'dart:convert';
+
+// ...
+
+// Get the shared preferences object
+final prefs = await SharedPreferences.getInstance();
+
+// Retrieve the JSON string from the shared preferences
+String jsonString = prefs.getString('my_list');
+
+// Convert the JSON string back to a list
+List<String> myList = jsonDecode(jsonString);
+
+
+Keep in mind that the getInstance method of the SharedPreferences class returns a Future, so you'll need to use the await keyword when calling it. You'll also need to wrap the code that uses the SharedPreferences object in a Future function or in an async function.
+
+=======================
+
+how to get list of strings at start of app flutter from local storage 
+
+
+To retrieve a list of strings from local storage when the app starts in Flutter, you can use the shared_preferences plugin and the WidgetsBindingObserver class.
+
+Here's an example of how you can do this:
+
+First, add shared_preferences as a dependency in your pubspec.yaml file:
+
+dependencies:
+  shared_preferences: ^0.5.12+4
+
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/widgets.dart';
+
+
+Create a class that extends WidgetsBindingObserver and overrides the didChangeAppLifecycleState method. In this method, you can retrieve the list of strings from local storage using the shared_preferences plugin:
+
+
+class MyAppLifecycleObserver extends WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // The app has resumed. Retrieve the list of strings from local storage.
+      _loadListFromLocalStorage();
+    }
+  }
+
+  Future<void> _loadListFromLocalStorage() async {
+    // Get the shared preferences object
+    final prefs = await SharedPreferences.getInstance();
+
+    // Retrieve the JSON string from the shared preferences
+    String jsonString = prefs.getString('my_list');
+
+    // Convert the JSON string back to a list
+    List<String> myList = jsonDecode(jsonString);
+
+    // Do something with the list, for example, print it to the console
+    print(myList);
+  }
+}
+
+
+
+In your app's main function, create an instance of the MyAppLifecycleObserver class and attach it to the app's WidgetsBinding using the addObserver method:
+
+void main() {
+  // Create an instance of the lifecycle observer
+  MyAppLifecycleObserver observer = MyAppLifecycleObserver();
+
+  // Attach the observer to the app's WidgetsBinding
+  WidgetsBinding.instance.addObserver(observer);
+
+  // Run the app
+  runApp(MyApp());
+}
+
+
+This way, the didChangeAppLifecycleState method of the MyAppLifecycleObserver class will be called whenever the app's lifecycle state changes, and the list of strings will be retrieved from local storage when the app is resumed.
+
