@@ -1,0 +1,202 @@
+What is the difference between stateless and stateful widget in flutter nd when do you create either of these:-
+
+In Flutter, a widget is a class that represents a visual element that can be displayed on the screen. There are two types of widgets in Flutter: stateless and stateful.
+
+A stateless widget is a widget that does not have any internal state to manage. It is created once and remains unchanged for the lifetime of the app. Stateless widgets are used to display static content, such as a header or a label. They do not need to rebuild themselves when their parent widget rebuilds, which makes them more efficient and faster to render.
+
+On the other hand, a stateful widget is a widget that has internal state to manage. It can change its appearance and behavior based on changes to its internal state. For example, a button widget can be in a pressed or unpressed state, and it can change its appearance based on that state. Stateful widgets rebuild themselves whenever their internal state changes, which allows them to update their visual appearance and behavior.
+
+You should use a stateless widget when you want to display static content or when you want to build a widget that does not depend on changing state. You should use a stateful widget when you need to manage internal state that can change over time, such as user input or data from a server.
+
+==================
+
+Should a widget containing other smaller widgets in flutter be stateful or stateless ?
+
+The type of a widget that contains other smaller widgets in Flutter (also known as a parent widget) depends on whether the parent widget needs to manage any internal state or not.
+
+If the parent widget does not need to manage any internal state and its children widgets do not depend on any changing state, then it can be a stateless widget. In this case, the parent widget will not need to rebuild itself when its children widgets rebuild, which can make it more efficient and faster to render.
+
+If the parent widget needs to manage internal state or its children widgets depend on changing state, then it should be a stateful widget. In this case, the parent widget will rebuild itself and its children widgets whenever the internal state changes. This allows the parent widget to update its visual appearance and behavior based on the changing state.
+
+It's important to note that the type of a widget (stateful or stateless) should be determined by its role and responsibilities in the app, rather than its size or the number of children it has. A large widget that does not manage any internal state can still be a stateless widget, while a small widget that manages a lot of internal state should be a stateful widget.
+
+===================
+
+pass a variable in constructor to a stateful widget in flutter
+
+
+class MyWidget extends StatefulWidget {
+  final String myVariable;
+
+  MyWidget(this.myVariable);
+
+  @override
+  _MyWidgetState createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Text(widget.myVariable);
+  }
+}
+
+================
+
+Container with glossy button look
+
+Container(
+  decoration: BoxDecoration(
+    gradient: LinearGradient(
+      colors: [Colors.blue[300], Colors.blue[700]],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    ),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.blue[600],
+        blurRadius: 10,
+        spreadRadius: 2,
+        offset: Offset(0, 5),
+      ),
+    ],
+  ),
+  child: Text('Button'),
+)
+			  
+================
+
+Items aligned symmetrically across multiple rows:-
+
+class LandingPageBottomActionSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      color: Colors.blue,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                flex: 30,
+                child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent, width: 3),
+                    ),
+                    child: Text('Image Inspection')),
+              ),
+              Flexible(
+                flex: 10,
+                child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent, width: 3),
+                    ),
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Icon(Icons.favorite))),
+              ),
+              Flexible(
+                flex: 60,
+                child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent, width: 3),
+                    ),
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Icon(Icons.share))),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 30,
+                child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent, width: 3),
+                    ),
+                    child: Text('Add folders')),
+              ),
+              Flexible(
+                flex: 10,
+                child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent, width: 3),
+                    ),
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Icon(Icons.favorite))),
+              ),
+              Flexible(
+                flex: 60,
+                child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent, width: 3),
+                    ),
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Icon(Icons.share))),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+===========================
+
+how to add service code to flutter
+
+
+
+To add a service to your Flutter app, you can follow these steps:
+
+Create a new file for the service in the lib directory of your Flutter project. For example, you might create a file called my_service.dart.
+
+Define the service class in this file. This class should include any methods or properties that you want to expose as part of the service.
+
+Inject the service into the widget tree by using a Provider widget. For example:
+
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Provider<MyService>(
+      create: (context) => MyService(),
+      child: MaterialApp(...),
+    );
+  }
+}
+
+
+To use the service in a widget, call Provider.of<MyService>(context) to retrieve an instance of the service.
+Here's an example of a simple service class:
+
+class MyService {
+  int counter = 0;
+
+  void incrementCounter() {
+    counter++;
+  }
+}
+
+
+And here's an example of a widget that uses the service:
+
+class MyWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final myService = Provider.of<MyService>(context);
+    return RaisedButton(
+      onPressed: () {
+        myService.incrementCounter();
+      },
+      child: Text('Increment counter'),
+    );
+  }
+}
+
+=====================
