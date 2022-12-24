@@ -775,5 +775,100 @@ MyWidget(
 
 In general, the key parameter is used to identify a widget in the widget tree, and it's often used to access the widget's state or to compare widgets
 
+==============================
+main method in dart
 
 
+In the Dart programming language, the main() function is the entry point of every Dart program. It is the first function that is called when the program is run.
+
+The main() function is defined as follows:
+
+void main() {
+  // code goes here
+}
+
+
+You can also pass arguments to the main() function, which are passed as a list of strings. These arguments can be used to pass command-line arguments to your program.
+
+Here's an example of a main() function that prints the arguments passed to it:
+
+
+void main(List<String> arguments) {
+  print(arguments);
+}
+
+
+You can run this program from the command line by passing arguments after the program name:
+
+$ dart main.dart arg1 arg2 arg3
+
+
+=======================
+deleting from a dart list
+
+In Flutter, a "Concurrent modification during iteration" error typically occurs when you are trying to modify a collection (such as a list) while you are iterating over it. This can happen if you are using a for loop or a forEach method to iterate over the collection, and then trying to add or remove elements from the collection within the loop.
+
+To fix this error, you can try one of the following approaches:
+
+Use a for loop with an index variable instead of forEach, and modify the collection using the index variable. For example:
+
+Copy code
+for (int i = 0; i < list.length; i++) {
+  if (list[i] == someValue) {
+    list.removeAt(i);
+  }
+}
+Make a copy of the collection before iterating over it, and modify the copy instead of the original collection. For example:
+
+Copy code
+List<int> copy = List.from(list);
+copy.forEach((element) {
+  if (element == someValue) {
+    list.remove(element);
+  }
+});
+Use the where method to filter the collection and create a new list with the elements that you want to keep. For example:
+
+List<int> filtered = list.where((element) => element != someValue).toList();
+I hope this helps! Let me know if you have any questions.
+
+============================
+
+get list of all file inside a folder using file_picker
+
+
+
+To get a list of all the files inside a folder using the file_picker package in Flutter, you can use the getChildren method of the Directory class.
+
+Here's an example of how to use it:
+
+First, add the file_picker package to your pubspec.yaml file:
+Copy code
+dependencies:
+  file_picker: ^2.0.8
+
+
+In your Flutter app, import the package:
+
+
+Copy code
+
+
+import 'package:file_picker/file_picker.dart';
+Use the getChildren method to get a list of the files inside a folder:
+
+Copy code
+String folderPath = '/path/to/folder';
+List<FileSystemEntity> files = Directory(folderPath).getChildren();
+The files list will contain File and Directory objects representing the files and subfolders inside the folder. You can use the isFile property of each object to determine whether it is a file or a directory.
+
+For example, you can use a for loop to iterate over the files list and print the names of all the files:
+
+Copy code
+
+for (FileSystemEntity entity in files) {
+  if (entity is File) {
+    print(entity.path);
+  }
+}
+I hope this helps! Let me know if you have any questions
